@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Application</title>
+</head>
+<body>
+
+<h1>Add Job Application</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input name="company" placeholder="Company" required><br><br>
+
+    <input name="role" placeholder="Role" required><br><br>
+
+    <select name="status">
+        <option value="APPLIED">Applied</option>
+        <option value="OA">OA</option>
+        <option value="INTERVIEW">Interview</option>
+        <option value="OFFER">Offer</option>
+        <option value="REJECTED">Rejected</option>
+    </select><br><br>
+
+    <input type="date" name="applied_date" required><br><br>
+
+    <input name="job_link" placeholder="Job Link"><br><br>
+
+    <textarea name="notes" placeholder="Notes"></textarea><br><br>
+
+    <button type="submit">Add Application</button>
+</form>
+
+<br>
+<a href="/">Back</a>
+
+</body>
+</html>

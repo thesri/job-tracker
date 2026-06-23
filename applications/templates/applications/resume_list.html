@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>My Resumes</h2>
+
+<a href="{% url 'upload_resume' %}">
+    + Upload New Resume
+</a>
+
+<br><br>
+
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Title</th>
+        <th>Uploaded</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for resume in resumes %}
+    <tr>
+        <td>{{ resume.title }}</td>
+        <td>{{ resume.uploaded_at }}</td>
+        <td>
+            <a href="{{ resume.resume_file.url }}"
+            target="_blank">
+            View
+            </a>
+
+            |
+
+            <a href="{% url 'delete_resume' resume.id %}"
+            onclick="return confirm('Delete this resume?')">
+            Delete
+            </a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="3">
+            No resumes uploaded yet.
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% endblock %}

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Job Tracker</title>
+    <style>
+        body {
+            font-family: Arial;
+            margin: 20px;
+            background: #fafafa;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: #333;
+            color: white;
+        }
+
+        .container {
+            margin-top: 20px;
+        }
+
+        a {
+            color: blue;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<!-- <a href="{% url 'upload_resume' %}">
+    Resume
+</a>
+<a href="{% url 'resume_list' %}">
+    Resumes
+</a> -->
+<style>
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1f2937;
+    padding: 12px 20px;
+    color: white;
+}
+
+.logo {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.nav-links a:hover {
+    text-decoration: underline;
+}
+
+.logout-form button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-weight: 500;
+}
+.logout-form button:hover {
+    text-decoration: underline;
+}
+</style>
+<body>
+
+<div class="navbar">
+    <div> Job Tracker</div>
+    <div>
+        <a href="/" style="color:white;">Dashboard</a> |
+        <a href="/add/" style="color:white;">Add</a> |
+        <a href="{% url 'resume_list' %}" style="color:white"> Resumes </a> |
+        <a href="{% url 'upload_resume' %}" style="color: white;">Upload Resume</a> |
+            <a href="{% url 'analyze_resume' %}" style="color:white;">
+                Analyze
+            </a> |
+
+            <a href="{% url 'analysis_history' %}" style="color:white;">
+                History
+            </a> |
+       <form method="POST" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" style="background:none;border:none;color:white;cursor:pointer;">
+            Logout
+            </button>
+        </form>
+    </div>
+</div>
+
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>AI Analysis History</h2>
+<form method="POST" action="{% url 'clear_analysis_history' %}">
+    {% csrf_token %}
+    <button type="submit"
+        onclick="return confirm('Delete all analysis history?')"
+        style="background:red;color:white;padding:8px;border:none;cursor:pointer;">
+        Clear History
+    </button>
+</form>
+<table border="1" cellpadding="8">
+    <tr>
+        <th>Resume</th>
+        <th>Score</th>
+        <th>Job Description</th>
+        <th>Date</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for h in history %}
+    <tr>
+        <td>{{ h.resume.title }}</td>
+        <td>{{ h.match_score }}%</td>
+        <td>
+            <details>
+                <summary>View JD</summary>
+                <pre style="white-space: pre-wrap;">{{ h.job_description }}</pre>
+            </details>
+        </td>
+        <td>{{ h.created_at }}</td>
+        <td>
+            <details>
+                <summary>View Result</summary>
+                <pre>{{ h.result_json }}</pre>
+            </details>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+{% endblock %}

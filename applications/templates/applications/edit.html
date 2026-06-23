@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Application</title>
+</head>
+<body>
+
+<h1>Edit Application</h1>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input name="company" value="{{ application.company }}" required><br><br>
+
+    <input name="role" value="{{ application.role }}" required><br><br>
+
+    <select name="status">
+        <option value="APPLIED" {% if application.status == "APPLIED" %}selected{% endif %}>Applied</option>
+        <option value="OA" {% if application.status == "OA" %}selected{% endif %}>OA</option>
+        <option value="INTERVIEW" {% if application.status == "INTERVIEW" %}selected{% endif %}>Interview</option>
+        <option value="OFFER" {% if application.status == "OFFER" %}selected{% endif %}>Offer</option>
+        <option value="REJECTED" {% if application.status == "REJECTED" %}selected{% endif %}>Rejected</option>
+    </select><br><br>
+
+    <input type="date" name="applied_date" value="{{ application.applied_date|date:'Y-m-d' }}"><br><br>
+
+    <input name="job_link" value="{{ application.job_link }}"><br><br>
+
+    <textarea name="notes">{{ application.notes }}</textarea><br><br>
+
+    <button type="submit">Update</button>
+</form>
+
+<br>
+<a href="/">Back</a>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Resume Analyzer</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <label>Select Resume:</label>
+    <select name="resume_id" required>
+        {% for r in resumes %}
+            <option value="{{ r.id }}">
+                {{ r.title }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label>Job Description:</label><br>
+    <textarea name="job_desc" rows="10" cols="80"></textarea>
+
+    <br><br>
+
+    <button type="submit">Analyze</button>
+</form>
+
+<hr>
+{% if result %}
+
+<h2>AI Analysis Result</h2>
+
+<div style="padding:10px;border:1px solid #ddd;margin-top:10px;">
+
+    <h3>Match Score: {{ result.match_score }}%</h3>
+
+    <h4>Matching Skills</h4>
+    <ul>
+        {% for skill in result.matching_skills %}
+            <li>{{ skill }}</li>
+        {% endfor %}
+    </ul>
+
+    <h4>Missing Skills</h4>
+    <ul>
+        {% for skill in result.missing_skills %}
+            <li>{{ skill }}</li>
+        {% endfor %}
+    </ul>
+
+    <h4>Suggestions</h4>
+    <ul>
+        {% for s in result.suggestions %}
+            <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+{% endif %}
+
+
+{% endblock %}

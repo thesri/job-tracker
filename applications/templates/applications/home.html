@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Dashboard</h2>
+
+<p>Total: {{ total }}</p>
+<p>OA: {{ oa }}</p>
+<p>Interviews: {{ interviews }}</p>
+<p>Offers: {{ offers }}</p>
+<p>Resumes: {{ resume_count }}</p>
+<form method="GET">
+    <select name="status">
+        <option value="">All</option>
+        <option value="APPLIED">Applied</option>
+        <option value="OA">OA</option>
+        <option value="INTERVIEW">Interview</option>
+        <option value="OFFER">Offer</option>
+        <option value="REJECTED">Rejected</option>
+    </select>
+    <button type="submit">Filter</button>
+</form>
+
+<br>
+
+<table border="1" cellpadding="8" width="100%">
+    <tr>
+        <th>Company</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Notes</th>
+        <th>Actions</th>
+    </tr>
+
+    {% for app in applications %}
+    <tr>
+        <td>{{ app.company }}</td>
+        <td>{{ app.role }}</td>
+        <td>{{ app.status }}</td>
+        <td>{{ app.applied_date }}</td>
+        <td>{{ app.notes }}</td>
+        <td>
+            <a href="/edit/{{ app.id }}/">Edit</a> |
+            <a href="/delete/{{ app.id }}/">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+
+</table>
+<br>
+{{ applied|json_script:"applied-data" }}
+{{ oa|json_script:"oa-data" }}
+{{ interviews|json_script:"interviews-data" }}
+{{ offers|json_script:"offers-data" }}
+<h3>Analytics</h3>
+
+<div style="display:flex; gap:40px;">
+    <div style="width:300px;">
+        <canvas id="statusChart"></canvas>
+    </div>
+
+    <div style="width:500px;">
+        <canvas id="scoreChart"></canvas>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const applied = JSON.parse(document.getElementById("applied-data").textContent);
+const oa = JSON.parse(document.getElementById("oa-data").textContent);
+const interviews = JSON.parse(document.getElementById("interviews-data").textContent);
+const offers = JSON.parse(document.getElementById("offers-data").textContent);
+
+new Chart(document.getElementById('statusChart'), {
+    type: 'pie',
+    data: {
+        labels: ['Applied', 'OA', 'Interview', 'Offer'],
+        datasets: [{
+            data: [
+                applied,
+                oa,
+                interviews,
+                offers
+            ],
+            backgroundColor: [
+                '#9CA3AF',
+                '#FBBF24',
+                '#60A5FA',
+                '#34D399'
+            ]
+        }]
+    }
+});
+</script>
+
+{% endblock %}
